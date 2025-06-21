@@ -7,10 +7,10 @@ const cors = require('cors');
 const app = express();
 const errorMiddleware = require("./middlewares/error-middleware")
 const port = process.env.PORT || 5000;
-const router = require('./router/auth-router');
+const authRoute = require('./router/auth-router');
 app.use(express.json());
 app.use(cors());
-app.use("/api/auth", router);
+app.use("/api/auth", authRoute);
 app.use(errorMiddleware);
 
 
