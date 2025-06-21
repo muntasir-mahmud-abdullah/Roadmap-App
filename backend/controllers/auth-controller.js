@@ -21,9 +21,13 @@ const signup = async (req, res) => {
             return res.status(400).json({ msg: "email already exists" })
         }
 
-        const userCreated = await User.create({ email, password});
+        const userCreated = await User.create({ email, password });
 
-        res.status(200).json({ msg: userCreated })
+        res.status(200).json({
+            msg: "Registration Sucessfull",
+            token: await userCreated.generateToken(),
+            userId: userCreated._id.toString(),
+        })
     } catch (error) {
         res.status(500).json({ msg: "page not found" })
     }
