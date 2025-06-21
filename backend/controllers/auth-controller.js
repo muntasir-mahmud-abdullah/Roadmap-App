@@ -9,7 +9,7 @@ const home = async (req, res) => {
     }
 }
 
-// registration logic
+// signup logic
 const signup = async (req, res) => {
     try {
 
@@ -31,6 +31,36 @@ const signup = async (req, res) => {
     } catch (error) {
         res.status(500).json({ msg: "page not found" })
     }
+};
+
+//login logic
+
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const userExist = await User.findOne({ email });
+        if (!userExist) {
+            res.status(400).json({ message: "Invalid Credentials" });
+        }
+
+        // const validPassword = await bcrypt.compare(password, userExist.password);
+        const validPassword = await userExist.comparePassword(password); 
+
+        if (validPassword) {
+            res.status(200).json({
+                msg: "Login Successful",
+                token: await userExist.generateToken(),
+                userId: userExist._id.toString(),
+            });
+
+        }
+        else {
+            res.status(401).json({ message: "Invalid email or password" });
+        }
+
+    } catch (error) {
+        res.status(500).json("Internal server error")
+    }
 }
 
-module.exports = { home, signup };
+module.exports = { home, signup, login };
