@@ -1,0 +1,28 @@
+nav ul li .navlink{
+    color: #4834d4;
+    font-weight:500;
+}
+nav ul li .active{
+    color: #fff;
+}
+nav ul li .active::after{
+        content: "";
+      width: 0%;
+  height: 0.1em;
+  background: #686de0;
+   display: block;
+    width: 100%;
+}
+
+nav ul li::after {
+  content: "";
+  width: 0%;
+  height: 0.1em;
+  background: #686de0;
+  display: block;
+  transition: 0.5s;
+  margin: auto;
+}
+nav ul li:hover::after {
+  width: 100%;
+}
