@@ -5,14 +5,12 @@ const AuthProvider = ({ children }) => {
   const storeTokenInLS = (serverToken) => {
     return localStorage.setItem("token", serverToken);
   };
-
   let isLoggedIn = !!token;
   console.log("islogged in value, ", isLoggedIn);
-
   //tackling the logout fuctionality
   const logoutUser = () => {
     setToken("");
-    localStorage.removeItem("token");
+    return localStorage.removeItem("token");
   };
 
   return (

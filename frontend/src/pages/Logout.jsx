@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Navigate } from "react-router";
 import { useAuth } from "../store/Auth";
 const Logout = () => {
-    const {logoutUser} = useAuth();
+  const { logoutUser } = useAuth();
   useEffect(() => {
     logoutUser();
   }, [logoutUser]);
