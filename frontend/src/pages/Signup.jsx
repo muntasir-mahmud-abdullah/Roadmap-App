@@ -2,12 +2,14 @@ import Lottie from "lottie-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import registerImage from "../assets/register-image.json";
+import { useAuth } from "../store/Auth";
 const Signup = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
+  const {storeTokenInLS} = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -33,6 +35,10 @@ const Signup = () => {
       });
       console.log(response);
       if (response.ok) {
+        const res_data = await response.json();
+        console.log("res from server",res_data);
+        // stored the token in local storage
+        storeTokenInLS(res_data.token);
         setUser({
           email: "",
           password: "",

@@ -2,12 +2,14 @@ import Lottie from "lottie-react";
 import loginImage from "../assets/signup-image.json"
 import { useState } from "react";
 import {useNavigate} from 'react-router';
+import { useAuth } from "../store/Auth";
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
+  const {storeTokenInLS} = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -33,11 +35,19 @@ const Login = () => {
       });
       console.log(response);
       if (response.ok) {
+        const res_data = await response.json();
+        storeTokenInLS(res_data.token);
+        alert("Login Successful");
+        console.log("Login Successful");
         setUser({
           email: "",
           password: "",
         });
         navigate("/");
+      }
+      else{
+        alert("invalid credential");
+        console.log("invalid credential")
       }
     } catch (error) {
       console.log("register", error);
