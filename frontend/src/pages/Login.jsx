@@ -1,12 +1,13 @@
 import Lottie from "lottie-react";
 import loginImage from "../assets/signup-image.json"
 import { useState } from "react";
+import {useNavigate} from 'react-router';
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -18,9 +19,29 @@ const Login = () => {
   };
 
   // handling the form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log(user);
+        try {
+      const response = await fetch(`http://localhost:5000/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+        // Credential: true,
+      });
+      console.log(response);
+      if (response.ok) {
+        setUser({
+          email: "",
+          password: "",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("register", error);
+    }
   };
   return (
     <>
@@ -42,9 +63,9 @@ const Login = () => {
             <br />
             <form action="" onSubmit={handleSubmit}>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="text-xl text-white" htmlFor="email">Email</label>
+                <label className="text-lg text-white" htmlFor="email">Email</label>
                 <input
-                  className="border-2 max-w-80 border-[#d1d8e0] p-1 bg-(--bg-primary)"
+                  className="border-2 text-white focus:bg-(--bg-primary-dark) max-w-80 border-[#d1d8e0] p-1 bg-(--bg-primary)"
                   type="email"
                   name="email"
                   placeholder="Enter Your Email"
@@ -56,9 +77,9 @@ const Login = () => {
                 />
               </div>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="text-xl text-white" htmlFor="password">Password</label>
+                <label className="text-lg text-white" htmlFor="password">Password</label>
                 <input
-                  className="border-2 max-w-80 border-[#d1d8e0] p-1 bg-(--bg-primary)"
+                  className="border-2 text-white focus:bg-(--bg-primary-dark) max-w-80 border-[#d1d8e0] p-1 bg-(--bg-primary)"
                   type="password"
                   name="password"
                   placeholder="Enter Your Password"

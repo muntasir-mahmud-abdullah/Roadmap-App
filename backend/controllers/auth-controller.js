@@ -23,7 +23,7 @@ const signup = async (req, res) => {
 
         const userCreated = await User.create({ email, password });
 
-        res.status(200).json({
+        res.status(201).json({
             msg: "Registration Sucessfull",
             token: await userCreated.generateToken(),
             userId: userCreated._id.toString(),

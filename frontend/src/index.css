@@ -1,5 +1,5 @@
 @import "tailwindcss";
- body {
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,6 +11,7 @@
   --color-primary: #4834d4;
   --color-secondary: #686de0;
   --bg-primary: #95afc0;
+  --bg-primary-dark: #535c68;
   --bg-secondary: #30336b;
   --color-avocado-400: oklch(0.92 0.19 114.08);
   --color-avocado-500: oklch(0.84 0.18 117.33);
@@ -23,8 +24,13 @@
 .btn-primary {
   color: white;
   background-color: #686de0;
-  padding: 10px 16px;
+  padding: 6px 16px;
   border-radius: 7px;
   font-size: large;
+  cursor: pointer;
+  transition: 0.5s;
 }
 
+.btn-primary:hover {
+  background-color: #4834d4;
+}

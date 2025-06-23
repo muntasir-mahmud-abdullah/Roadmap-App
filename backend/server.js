@@ -8,8 +8,15 @@ const app = express();
 const errorMiddleware = require("./middlewares/error-middleware")
 const port = process.env.PORT || 5000;
 const authRoute = require('./router/auth-router');
+//tackling cors
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET,POST,DELETE,PUT,PATCH,HEAD",
+  credentials: true,
+
+}
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cors());
 app.use("/api/auth", authRoute);
 app.use(errorMiddleware);
 
