@@ -4,7 +4,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
   const storeTokenInLS = (serverToken) => {
-    
+    setToken(serverToken);
     return localStorage.setItem("token", serverToken);
   };
   let isLoggedIn = !!token;
@@ -17,9 +17,9 @@ const AuthProvider = ({ children }) => {
   };
 
   // jwt authentication = to get currently logged in user data
-  useEffect(() => {
     const userAuthentication = async () => {
       try {
+        console.log("Token in state:", token);
         const response = await fetch("http://localhost:5000/api/auth/user", {
           method: "GET",
           headers: {
@@ -28,13 +28,20 @@ const AuthProvider = ({ children }) => {
         });
         if (response.ok) {
           const data = await response.json();
+          setUser(data.userData);
           console.log(data.userData);
         }
+        else{
+          console.error("failed fetching user data")
+        }
       } catch (error) {
-        console.log(error);
+        console.log("error fetching user data");
       }
     };
-  }, []);
+
+    useEffect(()=>{
+      userAuthentication();
+    },[])
 
   return (
     <AuthContext.Provider
