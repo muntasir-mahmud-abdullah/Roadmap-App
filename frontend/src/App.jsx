@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Error from "./pages/Error";
 import Logout from "./pages/Logout";
+import Service from "./pages/Service";
 const App = () => {
   return <>
   <BrowserRouter>
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/service" element={<Service />} />
         <Route path="*" element={<Error />} />
     </Routes>
   </BrowserRouter>

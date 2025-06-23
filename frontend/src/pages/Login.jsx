@@ -45,12 +45,8 @@ const Login = () => {
         });
         navigate("/");
       }
-      else{
-        alert("invalid credential");
-        console.log("invalid credential")
-      }
     } catch (error) {
-      console.log("register", error);
+      console.log("login", error);
     }
   };
   return (

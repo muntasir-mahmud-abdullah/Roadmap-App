@@ -43,7 +43,7 @@ const Signup = () => {
           email: "",
           password: "",
         });
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       console.log("register", error);

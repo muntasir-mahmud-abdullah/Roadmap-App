@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
 
   // jwt authentication = to get currently logged in user data
     const userAuthentication = async () => {
+      if(!token) return;
       try {
         console.log("Token in state:", token);
         const response = await fetch("http://localhost:5000/api/auth/user", {
@@ -41,7 +42,7 @@ const AuthProvider = ({ children }) => {
 
     useEffect(()=>{
       userAuthentication();
-    },[])
+    },[token])
 
   return (
     <AuthContext.Provider
