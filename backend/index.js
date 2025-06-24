@@ -11,7 +11,7 @@ const authRoute = require('./router/auth-router');
 const serviceRoute = require('./router/services-router')
 //tackling cors
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://roadmap-app-1810005.netlify.app/"],
   methods: "GET,POST,DELETE,PUT,PATCH,HEAD",
   credentials: true,
 
