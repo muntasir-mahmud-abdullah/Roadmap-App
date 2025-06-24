@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import registerImage from "../assets/register-image.json";
 import { useAuth } from "../store/Auth";
+import { toast } from 'react-toastify';
 const Signup = () => {
   const [user, setUser] = useState({
     email: "",
@@ -38,18 +39,17 @@ const Signup = () => {
       console.log("res from server", res_data);
       console.log(response);
       if (response.ok) {
-        const res_data = await response.json();
-        console.log("res from server", res_data);
         // stored the token in local storage
         storeTokenInLS(res_data.token);
         setUser({
           email: "",
           password: "",
         });
+        toast.success("Registration Successful")
         navigate("/");
       }
       else{
-        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
     } catch (error) {
       console.log("register", error);

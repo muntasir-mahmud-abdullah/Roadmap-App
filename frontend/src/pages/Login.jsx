@@ -1,5 +1,6 @@
 import Lottie from "lottie-react";
-import loginImage from "../assets/signup-image.json"
+import loginImage from "../assets/signup-image.json";
+import { toast } from 'react-toastify';
 import { useState } from "react";
 import {useNavigate} from 'react-router';
 import { useAuth } from "../store/Auth";
@@ -38,8 +39,7 @@ const Login = () => {
       if (response.ok) {
         
         storeTokenInLS(res_data.token);
-        alert("Login Successful");
-        console.log("Login Successful");
+        toast.success("Login Successful");
         setUser({
           email: "",
           password: "",
@@ -47,7 +47,7 @@ const Login = () => {
         navigate("/");
       }
             else{
-        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
     } catch (error) {
       console.log("login", error);
