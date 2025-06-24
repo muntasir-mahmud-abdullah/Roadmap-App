@@ -1,16 +1,16 @@
 import Lottie from "lottie-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import registerImage from "../assets/register-image.json";
 import { useAuth } from "../store/Auth";
-import { toast } from 'react-toastify';
 const Signup = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
-  const { storeTokenInLS } = useAuth();
+  const { storeTokenInLS, API } = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -26,7 +26,7 @@ const Signup = () => {
     e.preventDefault();
     console.log(user);
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/signup`, {
+      const response = await fetch(`${API}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,11 +45,12 @@ const Signup = () => {
           email: "",
           password: "",
         });
-        toast.success("Registration Successful")
+        toast.success("Registration Successful");
         navigate("/");
-      }
-      else{
-        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+      } else {
+        toast.error(
+          res_data.extraDetails ? res_data.extraDetails : res_data.message
+        );
       }
     } catch (error) {
       console.log("register", error);

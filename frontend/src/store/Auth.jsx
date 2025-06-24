@@ -3,7 +3,11 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
-  const [services,setServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [services, setServices] = useState([]);
+
+  const API = import.meta.env.VITE_APP_URI_API;
+
   const storeTokenInLS = (serverToken) => {
     setToken(serverToken);
     return localStorage.setItem("token", serverToken);
@@ -18,50 +22,60 @@ const AuthProvider = ({ children }) => {
   };
 
   // jwt authentication = to get currently logged in user data
-    const userAuthentication = async () => {
-      if(!token) return;
-      try {
-        console.log("Token in state:", token);
-        const response = await fetch("http://localhost:5000/api/auth/user", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data.userData);
-          console.log(data.userData);
-        }
-        else{
-          console.error("failed fetching user data")
-        }
-      } catch (error) {
-        console.log("error fetching user data");
+  const userAuthentication = async () => {
+    if (!token) return;
+    try {
+      setIsLoading(true);
+      console.log("Token in state:", token);
+      const response = await fetch(`${API}/api/auth/user`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.userData);
+        console.log(data.userData);
+        setIsLoading(false);
+      } else {
+        console.error("failed fetching user data");
+        setIsLoading(false);
       }
-    };
-    // fetch services data from database
-    const getServices = async() => {
-      try {
-        const response = await fetch("http://localhost:5000/api/data/service",{
-          method:"GET",
-        });
-        if(response.ok) {
-          const data = await response.json();
-          setServices(data.msg);
-        }
-      } catch (error) {
-        console.log("services frontend error:", error)
-      }
+    } catch (error) {
+      console.log("error fetching user data");
     }
-    useEffect(()=>{
-      getServices();
-      userAuthentication();
-    },[token])
+  };
+  // fetch services data from database
+  const getServices = async () => {
+    try {
+      const response = await fetch(`${API}/api/data/service`, {
+        method: "GET",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setServices(data.msg);
+      }
+    } catch (error) {
+      console.log("services frontend error:", error);
+    }
+  };
+  useEffect(() => {
+    getServices();
+    userAuthentication();
+  }, [token]);
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, storeTokenInLS, logoutUser, user, services }}
+      value={{
+        isLoggedIn,
+        storeTokenInLS,
+        logoutUser,
+        user,
+        services,
+        isLoading,
+        API,
+      }}
     >
       {children}
     </AuthContext.Provider>

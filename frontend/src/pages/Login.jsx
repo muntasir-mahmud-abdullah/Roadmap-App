@@ -1,8 +1,8 @@
 import Lottie from "lottie-react";
-import loginImage from "../assets/signup-image.json";
-import { toast } from 'react-toastify';
 import { useState } from "react";
-import {useNavigate} from 'react-router';
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import loginImage from "../assets/signup-image.json";
 import { useAuth } from "../store/Auth";
 const Login = () => {
   const [user, setUser] = useState({
@@ -10,7 +10,7 @@ const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const {storeTokenInLS} = useAuth();
+  const { storeTokenInLS, API } = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -22,11 +22,11 @@ const Login = () => {
   };
 
   // handling the form submission
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-        try {
-      const response = await fetch(`http://localhost:5000/api/auth/login`, {
+    try {
+      const response = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,6 @@ const Login = () => {
       const res_data = await response.json();
       console.log(response);
       if (response.ok) {
-        
         storeTokenInLS(res_data.token);
         toast.success("Login Successful");
         setUser({
@@ -45,9 +44,10 @@ const Login = () => {
           password: "",
         });
         navigate("/");
-      }
-            else{
-        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+      } else {
+        toast.error(
+          res_data.extraDetails ? res_data.extraDetails : res_data.message
+        );
       }
     } catch (error) {
       console.log("login", error);
@@ -60,20 +60,20 @@ const Login = () => {
           {/* image section */}
           <div className="w-1/2 flex items-center justify-start">
             <div className="">
-              <Lottie
-                className="w-96"
-                animationData={loginImage}
-                loop={true}
-              />
+              <Lottie className="w-96" animationData={loginImage} loop={true} />
             </div>
           </div>
           {/* login form section */}
           <div className="w-1/2">
-            <h1 className="text-4xl w-60 text-white pb-1 border-b-5 border-b-(--color-primary)">Login Form</h1>
+            <h1 className="text-4xl w-60 text-white pb-1 border-b-5 border-b-(--color-primary)">
+              Login Form
+            </h1>
             <br />
             <form action="" onSubmit={handleSubmit}>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="text-lg text-white" htmlFor="email">Email</label>
+                <label className="text-lg text-white" htmlFor="email">
+                  Email
+                </label>
                 <input
                   className="border-2 text-white focus:bg-(--bg-primary-dark) max-w-80 border-[#d1d8e0] p-1 bg-(--bg-primary)"
                   type="email"
@@ -87,7 +87,9 @@ const Login = () => {
                 />
               </div>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="text-lg text-white" htmlFor="password">Password</label>
+                <label className="text-lg text-white" htmlFor="password">
+                  Password
+                </label>
                 <input
                   className="border-2 text-white focus:bg-(--bg-primary-dark) max-w-80 border-[#d1d8e0] p-1 bg-(--bg-primary)"
                   type="password"
@@ -110,7 +112,6 @@ const Login = () => {
       </section>
     </>
   );
-
 };
 
 export default Login;

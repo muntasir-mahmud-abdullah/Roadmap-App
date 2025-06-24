@@ -2,7 +2,6 @@ import { useAuth } from "../store/Auth";
 import {Navigate} from 'react-router';
 const Service = () => {
   const { services, user } = useAuth();
-
   if(!user) {
     return <Navigate to="/login" />
   }
