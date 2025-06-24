@@ -5,10 +5,10 @@ const Navbar = () => {
   const { isLoggedIn } = useAuth();
   return (
     <>
-      <header className="w-full py-2 px-4 bg-(--bg-primary) sticky top-0 z-50">
+      <header className="w-full p-3 bg-(--bg-primary) sticky top-0 z-50">
         <div className="container flex justify-between mx-auto">
-          <div className="">
-            <h1>RoadmapCollaborator</h1>
+          <div className="flex justify-center items-center">
+            <h1 className="text-2xl font-bold text-indigo-500">RoadmapCollaborator</h1>
           </div>
           <nav>
             <ul className="flex gap-4">
