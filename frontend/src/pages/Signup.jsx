@@ -9,7 +9,7 @@ const Signup = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const {storeTokenInLS} = useAuth();
+  const { storeTokenInLS } = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -33,10 +33,13 @@ const Signup = () => {
         body: JSON.stringify(user),
         // Credential: true,
       });
+
+      const res_data = await response.json();
+      console.log("res from server", res_data);
       console.log(response);
       if (response.ok) {
         const res_data = await response.json();
-        console.log("res from server",res_data);
+        console.log("res from server", res_data);
         // stored the token in local storage
         storeTokenInLS(res_data.token);
         setUser({
@@ -44,6 +47,9 @@ const Signup = () => {
           password: "",
         });
         navigate("/");
+      }
+      else{
+        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
     } catch (error) {
       console.log("register", error);

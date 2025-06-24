@@ -33,9 +33,10 @@ const Login = () => {
         body: JSON.stringify(user),
         // Credential: true,
       });
+      const res_data = await response.json();
       console.log(response);
       if (response.ok) {
-        const res_data = await response.json();
+        
         storeTokenInLS(res_data.token);
         alert("Login Successful");
         console.log("Login Successful");
@@ -44,6 +45,9 @@ const Login = () => {
           password: "",
         });
         navigate("/");
+      }
+            else{
+        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
     } catch (error) {
       console.log("login", error);
