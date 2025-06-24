@@ -4,6 +4,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #303952;
+  color: #fff;
 }
 @theme {
   --font-display: "Satoshi", "sans-serif";
@@ -13,6 +14,7 @@ body {
   --bg-primary: #95afc0;
   --bg-primary-dark: #535c68;
   --bg-secondary: #30336b;
+  --bg-glima : #3d4875;
   --color-avocado-400: oklch(0.92 0.19 114.08);
   --color-avocado-500: oklch(0.84 0.18 117.33);
   --color-avocado-600: oklch(0.53 0.12 118.34);
@@ -28,7 +30,7 @@ body {
   border-radius: 7px;
   font-size: large;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.5s ;
 }
 
 .btn-primary:hover {

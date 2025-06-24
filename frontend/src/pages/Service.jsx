@@ -1,28 +1,38 @@
+import { Navigate } from "react-router";
 import { useAuth } from "../store/Auth";
-import {Navigate} from 'react-router';
 const Service = () => {
-  const { services, user } = useAuth();
-  if(!user) {
-    return <Navigate to="/login" />
+  const { services, user, isLoading, token } = useAuth();
+  console.log(user);
+
+  if (isLoading) {
+    if (!token) {
+      return <Navigate to="/login" />;
+    }
+    return (
+      <h1 className="text-2xl text-violet-400 italic m-4">Loading ... </h1>
+    );
   }
-      return (
-      <section>
-        <div className="container">
-          <h1 className="text-2xl">{services.length} Services</h1>
-        </div>
-        <div className="container grid grid-cols-3">
-          {services.map((service) => {
-          return  <div className="card border-2 m-4 p-4" key={service._id}>
+
+  return (
+    <section>
+      <div className="container">
+        <h1 className="text-2xl">{services.length} Services</h1>
+      </div>
+      <div className="container grid grid-cols-3">
+        {services.map((service) => {
+          return (
+            <div className="card border-2 m-4 p-4" key={service._id}>
               <h1>{service.title}</h1>
               <p>{service.description}</p>
               <p>{service.category}</p>
               <p>{service.status}</p>
               <p>{service.upvoteCount}</p>
-            </div>;
-          })}
-        </div>
-      </section>
-    );
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
 };
 
 export default Service;

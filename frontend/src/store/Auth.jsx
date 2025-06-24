@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState([]);
 
@@ -75,6 +75,7 @@ const AuthProvider = ({ children }) => {
         services,
         isLoading,
         API,
+        token,
       }}
     >
       {children}
