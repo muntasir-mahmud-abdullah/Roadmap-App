@@ -14,19 +14,23 @@ const Service = () => {
   }
 
   return (
-    <section>
-      <div className="container">
-        <h1 className="text-2xl">{services.length} Services</h1>
+    <section className=" p-10 mx-auto">
+      <div className="container text-center mb-10">
+        <h1 className="text-3xl mb-2"> Product Roadmap </h1>
+        <p>Share feedback, ideas, and vote on what we should build next.</p>
       </div>
       <div className="container grid grid-cols-3">
         {services.map((service) => {
           return (
-            <div className="card border-2 m-4 p-4" key={service._id}>
-              <h1>{service.title}</h1>
+            <div className="card rounded-2xl border-l-4 border-l-indigo-500 border-2 m-4 p-4" key={service._id}>
+              <p className="flex justify-between">
+              <span>Feature</span>
+              <span className="">{service.status}</span>
+              </p>
+              <h1 className="text-xl mb-2">{service.title}</h1>
               <p>{service.description}</p>
-              <p>{service.category}</p>
-              <p>{service.status}</p>
-              <p>{service.upvoteCount}</p>
+              <p>Category: {service.category}</p>
+              <p>Upvotes: {service.upvotesCount}</p>
             </div>
           );
         })}
