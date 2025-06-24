@@ -1,7 +1,11 @@
 import { useAuth } from "../store/Auth";
-import {useEffect} from 'react';
+import {Navigate} from 'react-router';
 const Service = () => {
-  const { services } = useAuth();
+  const { services, user } = useAuth();
+
+  if(!user) {
+    return <Navigate to="/login" />
+  }
       return (
       <section>
         <div className="container">
