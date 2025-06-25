@@ -1,8 +1,8 @@
+import { motion } from "motion/react";
 import { BiUpvote } from "react-icons/bi";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link, Navigate } from "react-router";
 import { useAuth } from "../store/Auth";
-
 const Card = () => {
   const { services, isLoading, token } = useAuth();
 
@@ -19,7 +19,9 @@ const Card = () => {
     <div className="container grid grid-cols-3">
       {services.map((service) => {
         return (
-          <div
+          <motion.div
+            animate={{ x: 50 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             className="card bg-(--bg-primary-dark) rounded-2xl border-l-6 border-l-(--color-primary) m-4 p-4 pb-16 drop-shadow-2xl flex flex-col relative"
             key={service._id}
           >
@@ -36,12 +38,12 @@ const Card = () => {
             <button className="cursor-pointer absolute bottom-4 flex items-center gap-2 mt-4 bg-(--bg-primary) justify-center w-16 rounded-lg">
               <BiUpvote /> {service.upvotesCount}
             </button>
-            <Link to="/service/viewDetails">
+            <Link to={`/service/viewDetails/${service._id}`}>
               <span className="absolute flex items-center justify-between bottom-4 right-4">
                 View Details <MdKeyboardArrowRight />
               </span>
             </Link>
-          </div>
+          </motion.div>
         );
       })}
     </div>

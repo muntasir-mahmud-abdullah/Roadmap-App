@@ -21,7 +21,7 @@ const App = () => {
           <Route path="/logout" element={<Logout />} />
           <Route path="/service" element={<Service />}>
             <Route index element={<Card />} />
-            <Route path="viewDetails" element={<Details />} />
+            <Route path="viewDetails/:id" element={<Details />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>
