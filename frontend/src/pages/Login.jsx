@@ -43,7 +43,7 @@ const Login = () => {
           email: "",
           password: "",
         });
-        navigate("/");
+        navigate("/service");
       } else {
         toast.error(
           res_data.extraDetails ? res_data.extraDetails : res_data.message

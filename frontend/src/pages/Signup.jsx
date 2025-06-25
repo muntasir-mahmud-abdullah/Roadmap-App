@@ -46,7 +46,7 @@ const Signup = () => {
           password: "",
         });
         toast.success("Registration Successful");
-        navigate("/");
+        navigate("/service");
       } else {
         toast.error(
           res_data.extraDetails ? res_data.extraDetails : res_data.message
