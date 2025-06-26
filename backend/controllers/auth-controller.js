@@ -1,5 +1,7 @@
 const User = require("../models/user-model");
 const bcrypt = require('bcrypt');
+const Service = require("../models/services-model")
+const Upvote = require("../models/upvote-model")
 //Home logic
 const home = async (req, res) => {
     try {
@@ -65,19 +67,73 @@ const login = async (req, res) => {
     }
 }
 
-// to send user data - logic
+// get all users logic 
 
-const user = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
+        const response = await User.find();
+        if (!response) {
+            //handle if no services were found
+            res.status(404).json({ msg: "No services were found" })
+        }
 
-        const userData = req.user;
-        console.log(userData)
 
-        res.status(200).json({ userData })
+        res.status(200).json({ msg: response })
     } catch (error) {
-        console.log("error from user route", error)
+        console.log(`services: ${error}`)
+    }
+}
+
+const getAllServices = async (req, res) => {
+    try {
+        const response = await Service.find();
+        if (!response) {
+            //handle if no services were found
+            res.status(404).json({ msg: "No services were found" })
+        }
+
+
+        res.status(200).json({ msg: response })
+    } catch (error) {
+        console.log(`services: ${error}`)
+    }
+}
+
+//record new upvotes logic
+
+const createUpvote = async (req, res) => {
+    const id = req.params.id;
+    const userId = req.userID;
+
+    try {
+        const existingUpvote = await Upvote.findOne({ userId, serviceId: id });
+
+        if (existingUpvote) {
+            return res.status(400).json({ message: 'You have already upvoted this item' });
+        }
+        const upvote = await Upvote.create({ userId, serviceId: id });
+
+        await Service.findByIdAndUpdate(id, {
+            $inc: { upvotesCount: 1 }
+        });
+        res.status(200).json({ message: 'Upvote recorded' });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error upvoting', error: error.message });
+    }
+}
+
+const getUpvote = async (req, res) => {
+    const id = req.params.id;
+    const userId = req.userID;
+
+    try {
+        const upvote = await Upvote.findOne({ userId, serviceId: id });
+        res.json({ hasUpvoted: !!upvote });
+    } catch (error) {
+        res.status(500).json({ message: "Error checking upvote status", error: error.message })
     }
 }
 
 
-module.exports = { home, signup, login, user };
+module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote };

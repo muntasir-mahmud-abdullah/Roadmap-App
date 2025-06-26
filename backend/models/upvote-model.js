@@ -16,5 +16,10 @@ const upvoteSchema = new Schema({
         default: Date.now
     }
 });
+
+//ensuring one upvote per user per item
+upvoteSchema.index({userId:1,serviceId:1},{unique: true});
+
 const Upvote = new model("Upvote", upvoteSchema);
+
 module.exports = Upvote;

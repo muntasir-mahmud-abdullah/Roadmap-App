@@ -19,7 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authRoute);
-app.use("/api/data", serviceRoute);
+// app.use("/api/data", serviceRoute);
 app.use(errorMiddleware);
 
 
