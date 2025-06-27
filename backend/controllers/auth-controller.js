@@ -109,7 +109,7 @@ const createUpvote = async (req, res) => {
         const existingUpvote = await Upvote.findOne({ userId, serviceId: id });
 
         if (existingUpvote) {
-            return res.status(400).json({ message: 'You have already upvoted this item' });
+            return res.json({ message: 'You have already upvoted this item' });
         }
         const upvote = await Upvote.create({ userId, serviceId: id });
 

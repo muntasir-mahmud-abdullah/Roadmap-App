@@ -8,7 +8,7 @@ import { useAuth } from "../store/Auth";
 const Card = ({ service }) => {
   const { API, token } = useAuth();
   const { _id, title, description, category, status, upvotesCount } = service;
-  const [upvotes, setUpvotes] = useState(0);
+  const [upvotes, setUpvotes] = useState(upvotesCount);
   const [hasUpvoted, setHasUpvoted] = useState(false);
 
   useEffect(() => {
@@ -24,6 +24,8 @@ const Card = ({ service }) => {
               },
             }
           );
+          const data = await response.json();
+          setHasUpvoted(data.hasUpvoted);
         } catch (error) {
           console.log("Error checking upvote status", error);
         }
@@ -43,9 +45,8 @@ const Card = ({ service }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const res_data = await response.json();
-      console.log(res_data)
-      if (res_data.ok) {
+      console.log(response);
+      if (response.ok) {
         setUpvotes(upvotesCount + 1);
         setHasUpvoted(true);
       }
