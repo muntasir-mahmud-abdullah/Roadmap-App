@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
     try {
       setIsLoading(true);
       console.log("Token in state:", token);
-      const response = await fetch(`${API}/api/auth/user`, {
+      const response = await fetch(`${API}/api/auth/users`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
   // fetch services data from database
   const getServices = async () => {
     try {
-      const response = await fetch(`${API}/api/data/service`, {
+      const response = await fetch(`${API}/api/auth/service`, {
         method: "GET",
       });
       if (response.ok) {
