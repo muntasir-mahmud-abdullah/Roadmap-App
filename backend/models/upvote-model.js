@@ -18,7 +18,7 @@ const upvoteSchema = new Schema({
 });
 
 //ensuring one upvote per user per item
-upvoteSchema.index({userId:1,serviceId:1},{unique: true});
+upvoteSchema.index({ userId: 1, serviceId: 1 }, { unique: true });
 
 const Upvote = new model("Upvote", upvoteSchema);
 

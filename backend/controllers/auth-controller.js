@@ -104,7 +104,7 @@ const getAllServices = async (req, res) => {
 const createUpvote = async (req, res) => {
     const id = req.params.id;
     const userId = req.userID;
-
+    
     try {
         const existingUpvote = await Upvote.findOne({ userId, serviceId: id });
 
