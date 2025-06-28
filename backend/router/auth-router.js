@@ -20,5 +20,6 @@ router.route("/service/:id/upvote").get(authMiddleware,authControllers.getUpvote
 
 router.route("/service/:id/comment").post(authMiddleware,authControllers.postComment);
 router.route("/comments/:commentId").put(authMiddleware,authControllers.editComment);
+router.route("/comments/:commentId").delete(authMiddleware,authControllers.deleteComment);
 
 module.exports = router;
