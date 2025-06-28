@@ -223,4 +223,26 @@ const deleteComment = async (req, res) => {
     }
 }
 
-module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote, postComment, editComment, deleteComment };
+// fetch comments for a service item
+const fetchComments = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const comments = await Comment.find({serviceId:id}).lean();
+        const commentTree = buildCommentTree(comments);
+        res.json(commentTree);
+    } catch (error) {
+        res.status(500).json({message: 'Error fetching comments', error: error.message});
+    }
+}
+
+
+function buildCommentTree(comments,parentId = null) {
+    return comments
+    .filter(comment => (comment.parentCommentId ? comment.parentCommentId.toString() : null) === parentId)
+    .map(comment => ({
+        ...comment,
+        replies: buildCommentTree(comments,comment._id.toString())
+    }));
+}
+
+module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote, postComment, editComment, deleteComment, fetchComments };

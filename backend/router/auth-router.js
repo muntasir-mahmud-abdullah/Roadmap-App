@@ -15,11 +15,14 @@ router.route("/service").get(authControllers.getAllServices);
 
 router.route("/users").get(authControllers.getAllUsers);
 
-router.route("/service/:id/upvote").post(authMiddleware,authControllers.createUpvote);
-router.route("/service/:id/upvote").get(authMiddleware,authControllers.getUpvote);
+router.route("/service/:id/upvote").post(authMiddleware, authControllers.createUpvote);
+router.route("/service/:id/upvote").get(authMiddleware, authControllers.getUpvote);
 
-router.route("/service/:id/comment").post(authMiddleware,authControllers.postComment);
-router.route("/comments/:commentId").put(authMiddleware,authControllers.editComment);
-router.route("/comments/:commentId").delete(authMiddleware,authControllers.deleteComment);
+router.route("/service/:id/comment").post(authMiddleware, authControllers.postComment);
+router.route("/comments/:commentId").put(authMiddleware, authControllers.editComment);
+router.route("/comments/:commentId").delete(authMiddleware, authControllers.deleteComment);
+
+
+router.route("/service/:id/comments").get(authMiddleware, authControllers.fetchComments);
 
 module.exports = router;
