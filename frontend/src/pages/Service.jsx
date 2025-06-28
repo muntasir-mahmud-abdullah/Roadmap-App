@@ -13,8 +13,8 @@ const Service = () => {
   }
 
   return (
-    <section className=" p-10 mx-auto">
-      <div className="container text-center mb-10">
+    <section className=" px-40 py-10">
+      <div className="container flex flex-col items-center mb-10">
         <h1 className="text-3xl mb-2"> Product Roadmap </h1>
         <p>Share feedback, ideas, and vote on what we should build next.</p>
       </div>

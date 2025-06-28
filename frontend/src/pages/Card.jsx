@@ -45,9 +45,9 @@ const Card = ({ service }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
+      // console.log(response);
       if (response.ok) {
-        setUpvotes(upvotesCount + 1);
+        setUpvotes(upvotes + 1);
         setHasUpvoted(true);
       }
     } catch (error) {

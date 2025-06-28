@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState([]);
 
@@ -34,9 +33,7 @@ const AuthProvider = ({ children }) => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setUser(data.userData);
-        console.log(data.userData);
+        // console.log(data.userData);
         setIsLoading(false);
       } else {
         console.error("failed fetching user data");
@@ -64,14 +61,12 @@ const AuthProvider = ({ children }) => {
     getServices();
     userAuthentication();
   }, [token]);
-
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
         storeTokenInLS,
         logoutUser,
-        user,
         services,
         isLoading,
         API,

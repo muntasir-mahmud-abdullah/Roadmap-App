@@ -4,7 +4,6 @@ const authControllers = require("../controllers/auth-controller");
 const { signupSchema, loginSchema } = require("../validators/auth-validator")
 const validate = require("../middlewares/validate-middleware");
 const authMiddleware = require("../middlewares/authMiddleware");
-const serviceControllers = require("../controllers/services-controller")
 
 router.route("/").get(authControllers.home);
 //signup route
@@ -18,5 +17,7 @@ router.route("/users").get(authControllers.getAllUsers);
 
 router.route("/service/:id/upvote").post(authMiddleware,authControllers.createUpvote);
 router.route("/service/:id/upvote").get(authMiddleware,authControllers.getUpvote);
+
+router.route("/service/:id/comment").post(authMiddleware,authControllers.postComment);
 
 module.exports = router;

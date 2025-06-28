@@ -1,7 +1,8 @@
 const User = require("../models/user-model");
 const bcrypt = require('bcrypt');
-const Service = require("../models/services-model")
-const Upvote = require("../models/upvote-model")
+const Service = require("../models/services-model");
+const Upvote = require("../models/upvote-model");
+const Comment = require("../models/comment-model");
 //Home logic
 const home = async (req, res) => {
     try {
@@ -104,7 +105,7 @@ const getAllServices = async (req, res) => {
 const createUpvote = async (req, res) => {
     const id = req.params.id;
     const userId = req.userID;
-    
+
     try {
         const existingUpvote = await Upvote.findOne({ userId, serviceId: id });
 
@@ -136,4 +137,46 @@ const getUpvote = async (req, res) => {
 }
 
 
-module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote };
+// post a comment
+const postComment = async (req, res) => {
+    const id = req.params.id;
+    const userId = req.userID;
+    const { content, parentCommentId } = req.body;
+    if (!content) {
+        return res.status(400).json({ message: 'Content is required' });
+    }
+
+
+    try {
+        let depth = 0;
+        if (parentCommentId) {
+            const parentComment = await Comment.findById(parentCommentId);
+            if (!parentComment) {
+                return res.status(404).json({ message: 'Parent comment not found' });
+            }
+            depth = parentComment.depth + 1;
+            if (depth > 3) {
+                return res.status(400).json({ message: 'Maximum nesting depth of 3 reached' });
+            }
+        }
+
+        const comment = await Comment.create({
+            serviceId: id,
+            userId,
+            content,
+            parentCommentId: parentCommentId || null,
+            depth
+        });
+        res.status(201).json(comment);
+    } catch (error) {
+        res.status(500).json({ message: "Error posting comment", error: error.message });
+    }
+}
+
+// const editComment = async() => {
+//     const {commentId} = req.params;
+// }
+
+
+
+module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote, postComment };
