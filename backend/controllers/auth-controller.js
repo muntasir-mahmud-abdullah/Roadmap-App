@@ -173,10 +173,34 @@ const postComment = async (req, res) => {
     }
 }
 
-// const editComment = async() => {
-//     const {commentId} = req.params;
-// }
+const editComment = async (req, res) => {
+    const { commentId } = req.params;
+    const { content } = req.body;
+    const userId = req.userID;
+
+    if (!content) {
+        return res.status(400).json({ message: 'Content is required' });
+    }
+
+    try {
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+        console.log(comment.userId);
+        if (comment.userId !== userId.toString()) {
+            return res.status(403).json({ message: "You can only edit your own comments" });
+}
+            comment.content = content;
+            comment.updateAt = new Date();
+            await comment.save();
+            res.json({message: 'Comment updated successfully'});
+        
+    } catch (error) {
+        res.status(500).json({message: 'Error updating comment', error: error.message});
+    }
+}
 
 
 
-module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote, postComment };
+module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote, postComment,editComment };
