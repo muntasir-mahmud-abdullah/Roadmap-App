@@ -10,7 +10,7 @@ const Signup = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const { storeTokenInLS, API } = useAuth();
+  const { storeTokenInLS,storeUserIdInLS, API } = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -41,6 +41,7 @@ const Signup = () => {
       if (response.ok) {
         // stored the token in local storage
         storeTokenInLS(res_data.token);
+        storeUserIdInLS(res_data.userId);
         setUser({
           email: "",
           password: "",

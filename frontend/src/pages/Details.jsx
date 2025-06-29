@@ -3,10 +3,9 @@ import { Link, useParams } from "react-router";
 import { useAuth } from "../store/Auth";
 const details = () => {
   const [comments, setcomments] = useState([]);
-  const [item, setItem] = useState(null);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editingContent, setEditingContent] = useState("");
-  const { services } = useAuth();
+  const { services, user, userId } = useAuth();
   let params = useParams();
   const serviceItem = services.find((service) => service._id === params.id);
   const { _id, title, description, category, status, upvotesCount } =

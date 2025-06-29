@@ -3,8 +3,9 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
-  const [users,setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [services, setServices] = useState([]);
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
   const API = import.meta.env.VITE_APP_URI_API;
 
@@ -12,9 +13,15 @@ const AuthProvider = ({ children }) => {
     setToken(serverToken);
     return localStorage.setItem("token", serverToken);
   };
+
+  const storeUserIdInLS = (userId) => {
+    setUserId(userId);
+    return localStorage.setItem("userId", userId);
+  };
   let isLoggedIn = !!token;
   console.log("islogged in value, ", isLoggedIn);
   console.log("token value, ", token);
+  console.log("userId, ", userId);
   //tackling the logout fuctionality
   const logoutUser = () => {
     setToken("");
@@ -22,7 +29,6 @@ const AuthProvider = ({ children }) => {
   };
 
   // jwt authentication = to get currently logged in user data
-
 
   const getUsers = async () => {
     if (!token) return;
@@ -65,18 +71,20 @@ const AuthProvider = ({ children }) => {
     getServices();
     getUsers();
   }, [token]);
-  console.log(users)
+  // console.log(users)
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
         storeTokenInLS,
+        storeUserIdInLS,
         logoutUser,
         services,
         isLoading,
         API,
         token,
-        users
+        users,
+        userId,
       }}
     >
       {children}

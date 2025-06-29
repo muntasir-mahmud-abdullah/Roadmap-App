@@ -10,7 +10,7 @@ const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const { storeTokenInLS, API } = useAuth();
+  const { storeTokenInLS,storeUserIdInLS, API } = useAuth();
   // handling the input values
   const handleInput = (e) => {
     let name = e.target.name;
@@ -35,9 +35,10 @@ const Login = () => {
         // Credential: true,
       });
       const res_data = await response.json();
-      console.log(response);
+      console.log(res_data);
       if (response.ok) {
         storeTokenInLS(res_data.token);
+        storeUserIdInLS(res_data.userId);
         toast.success("Login Successful");
         setUser({
           email: "",
