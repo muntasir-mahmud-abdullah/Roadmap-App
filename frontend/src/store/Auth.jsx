@@ -3,6 +3,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
+  const [users,setUsers] = useState([]);
   const [services, setServices] = useState([]);
 
   const API = import.meta.env.VITE_APP_URI_API;
@@ -21,7 +22,9 @@ const AuthProvider = ({ children }) => {
   };
 
   // jwt authentication = to get currently logged in user data
-  const userAuthentication = async () => {
+
+
+  const getUsers = async () => {
     if (!token) return;
     try {
       setIsLoading(true);
@@ -33,7 +36,8 @@ const AuthProvider = ({ children }) => {
         },
       });
       if (response.ok) {
-        // console.log(data.userData);
+        const data = await response.json();
+        setUsers(data);
         setIsLoading(false);
       } else {
         console.error("failed fetching user data");
@@ -59,8 +63,9 @@ const AuthProvider = ({ children }) => {
   };
   useEffect(() => {
     getServices();
-    userAuthentication();
+    getUsers();
   }, [token]);
+  console.log(users)
   return (
     <AuthContext.Provider
       value={{
@@ -71,6 +76,7 @@ const AuthProvider = ({ children }) => {
         isLoading,
         API,
         token,
+        users
       }}
     >
       {children}

@@ -75,13 +75,13 @@ const getAllUsers = async (req, res) => {
         const response = await User.find();
         if (!response) {
             //handle if no services were found
-            res.status(404).json({ msg: "No services were found" })
+            res.status(404).json({ msg: "No users were found" })
         }
 
 
         res.status(200).json({ msg: response })
     } catch (error) {
-        console.log(`services: ${error}`)
+        console.log(`users: ${error}`)
     }
 }
 
