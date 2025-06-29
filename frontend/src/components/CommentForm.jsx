@@ -1,9 +1,9 @@
 import React from 'react';
 import {useState} from 'react';
 import {useAuth} from '../store/Auth'
-const CommentForm = ({serviceId,parentCommentId,onCommentAdded, initialContent ="",isEditing = false,commentId}) => {
+const CommentForm = ({serviceId,parentCommentId,onCommentPosted, initialContent ="",isEditing = false,commentId}) => {
 
-    {API, token} = useAuth();
+  const  {API, token} = useAuth();
     const [content,setContent] = useState(initialContent);
     const [error,setError] = useState('');
 
@@ -29,7 +29,7 @@ const CommentForm = ({serviceId,parentCommentId,onCommentAdded, initialContent =
                 });
                 setContent("");
                 setError("");
-                onCommentAdded();
+                onCommentPosted();
             }
         } catch (error) {
             setError(error.response?.data?.message || "Error submitting comment");
