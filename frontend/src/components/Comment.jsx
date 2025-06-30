@@ -1,6 +1,7 @@
+import React from 'react';
 const Comment = ({ comment, userId, onEdit, onDelete, onReply }) => {
   const isOwner = comment.userId === userId;
-
+  console.log(isOwner,comment.userId,userId);
   return (
     <div className={`bg-(--bg-primary) p-2 ml-${comment.depth + 4}`}>
       <p>{comment.content}</p>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import Comment from "../components/Comment.jsx";
 import CommentForm from "../components/CommentForm.jsx";
@@ -14,6 +14,24 @@ const details = () => {
     serviceItem;
 
   console.log(_id);
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(
+          `${API}/api/auth/service/${_id}/comments`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = await response.json();
+        setComments(data);
+      } catch (error) {
+        console.log("error fetching comments", error);
+      }
+    };
+    fetchComments();
+  }, [params.id]);
   const handleCommentPosted = async () => {
     const commentsResponse = await fetch(
       `${API}/api/auth/service/${_id}/comments`,
@@ -22,6 +40,7 @@ const details = () => {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+
     const data = await commentsResponse.json();
     setComments(data);
     console.log(data);
@@ -36,7 +55,7 @@ const details = () => {
 
   const handleDelete = async (commentId) => {
     try {
-      let response = await fetch(`${API}/api/auth/commensts/${commentId}`, {
+      let response = await fetch(`${API}/api/auth/comments/${commentId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

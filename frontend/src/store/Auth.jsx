@@ -22,6 +22,7 @@ const AuthProvider = ({ children }) => {
   console.log("islogged in value, ", isLoggedIn);
   console.log("token value, ", token);
   console.log("userId, ", userId);
+
   //tackling the logout fuctionality
   const logoutUser = () => {
     setToken("");
