@@ -12,11 +12,40 @@ const Cards = () => {
     );
   }
   return (
-    <div className="container grid grid-cols-3">
-      {services.map((service) => {
-        return <Card key={service._id} service={service} />;
-      })}
+    <>
+    <div>
+      <div className="">
+      <h2>Filters & Sort </h2>
+      <p>Organize items by category, status, or popularity</p>        
+      </div>
+      <div className="">
+        <div className="">
+          <select id="category-filter">
+            <option value="all">All Categories</option>
+            <option value="Feature">Feature</option>
+            <option value="bug">Bug</option> 
+          </select>
+        </div>
+        <div className="">
+          <select id="category-filter">
+            <option value="all">All Statuses</option>
+            <option value="Planned">Planned</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <div className="">
+          <div className="btn-primary">Popular</div>
+        </div>
+      </div>
+
     </div>
+      <div className="container grid grid-cols-3">
+        {services.map((service) => {
+          return <Card key={service._id} service={service} />;
+        })}
+      </div>
+    </>
   );
 };
 
