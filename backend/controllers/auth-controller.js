@@ -87,7 +87,19 @@ const getAllUsers = async (req, res) => {
 
 const getAllServices = async (req, res) => {
     try {
-        const response = await Service.find();
+        const { category, status, sort } = req.query;
+        let filter = {};
+        let sortQuery = {};
+        if (category) {
+            filter.category = category;
+        }
+        if (status) {
+            filter.status = status;
+        }
+        if (sort) {
+          sortQuery = {"upvotesCount" : -1}
+        }
+        const response = await Service.find(filter).sort(sortQuery);
         if (!response) {
             //handle if no services were found
             res.status(404).json({ msg: "No services were found" })
@@ -224,25 +236,25 @@ const deleteComment = async (req, res) => {
 }
 
 // fetch comments for a service item
-const fetchComments = async(req,res) => {
-    const {id} = req.params;
+const fetchComments = async (req, res) => {
+    const { id } = req.params;
     try {
-        const comments = await Comment.find({serviceId:id}).lean();
+        const comments = await Comment.find({ serviceId: id }).lean();
         const commentTree = buildCommentTree(comments);
         res.json(commentTree);
     } catch (error) {
-        res.status(500).json({message: 'Error fetching comments', error: error.message});
+        res.status(500).json({ message: 'Error fetching comments', error: error.message });
     }
 }
 
 
-function buildCommentTree(comments,parentId = null) {
+function buildCommentTree(comments, parentId = null) {
     return comments
-    .filter(comment => (comment.parentCommentId ? comment.parentCommentId.toString() : null) === parentId)
-    .map(comment => ({
-        ...comment,
-        replies: buildCommentTree(comments,comment._id.toString())
-    }));
+        .filter(comment => (comment.parentCommentId ? comment.parentCommentId.toString() : null) === parentId)
+        .map(comment => ({
+            ...comment,
+            replies: buildCommentTree(comments, comment._id.toString())
+        }));
 }
 
 module.exports = { home, signup, login, getAllUsers, getAllServices, createUpvote, getUpvote, postComment, editComment, deleteComment, fetchComments };

@@ -63,7 +63,7 @@ const Card = ({ service }) => {
     >
       <p className="flex justify-between">
         <span className="text-(--color-primary) font-semibold rounded-xl px-2 bg-(--color-secondary)">
-          Feature
+          {category}
         </span>
         <span className="text-gray-300">{status}</span>
       </p>

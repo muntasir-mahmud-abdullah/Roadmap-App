@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
+  const [category, setCategory] = useState("All");
+  const [status, setStatus] = useState("All");
+  const [sort, setSort] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -57,7 +60,12 @@ const AuthProvider = ({ children }) => {
   // fetch services data from database
   const getServices = async () => {
     try {
-      const response = await fetch(`${API}/api/auth/service`, {
+      const query = new URLSearchParams({
+        category: category === "All" ? "" : category,
+        status: status === "All" ? "" : status,
+        sort,
+      }).toString();
+      const response = await fetch(`${API}/api/auth/service?${query}`, {
         method: "GET",
       });
       if (response.ok) {
@@ -71,7 +79,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     getServices();
     getUsers();
-  }, [token]);
+  }, [token, category, status,sort]);
   // console.log(users)
   return (
     <AuthContext.Provider
@@ -86,6 +94,12 @@ const AuthProvider = ({ children }) => {
         token,
         users,
         userId,
+        category,
+        status,
+        setCategory,
+        setStatus,
+        sort,
+        setSort,
       }}
     >
       {children}
