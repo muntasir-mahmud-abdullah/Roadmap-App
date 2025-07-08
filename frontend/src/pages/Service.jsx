@@ -8,7 +8,9 @@ const Service = () => {
       return <Navigate to="/login" />;
     }
     return (
-      <h1 className="text-2xl text-violet-400 italic m-4">Loading ... </h1>
+              <div className="flex justify-center p-10">
+                <div className="animate-spin rounded-full size-24 border-t-6 border-primary"></div>
+              </div>
     );
   }
 

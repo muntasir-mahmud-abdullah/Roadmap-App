@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
       const query = new URLSearchParams({
         category: category === "All" ? "" : category,
         status: status === "All" ? "" : status,
-        sort,
+        sort: sort ? "popular": "",
       }).toString();
       const response = await fetch(`${API}/api/auth/service?${query}`, {
         method: "GET",

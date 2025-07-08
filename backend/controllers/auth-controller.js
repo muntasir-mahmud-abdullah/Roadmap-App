@@ -96,7 +96,7 @@ const getAllServices = async (req, res) => {
         if (status) {
             filter.status = status;
         }
-        if (sort) {
+        if (sort === "popular") {
           sortQuery = {"upvotesCount" : -1}
         }
         const response = await Service.find(filter).sort(sortQuery);
